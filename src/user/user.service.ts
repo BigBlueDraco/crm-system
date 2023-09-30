@@ -6,7 +6,7 @@ import {
 import { CreateUser } from './types/CreateUser';
 import { UserFilter } from './types/UserFilter';
 import { UpdateUser } from './types/UpdateUser';
-import { PrismaService } from '@/prisma/service/prisma.service';
+import { PrismaService } from '../prisma/service/prisma.service';
 import { ResponseUser } from './types/ResponseUser';
 
 @Injectable()
