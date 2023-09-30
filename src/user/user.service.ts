@@ -3,11 +3,11 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUser } from './types/CreateUser';
-import { UserFilter } from './types/UserFilter';
-import { UpdateUser } from './types/UpdateUser';
+import { CreateUser } from './types/create-user';
+import { UserFilter } from './types/user-filter';
+import { UpdateUser } from './types/update-user';
 import { PrismaService } from '../prisma/service/prisma.service';
-import { ResponseUser } from './types/ResponseUser';
+import { ResponseUser } from './types/response-user';
 
 @Injectable()
 export class UserService {
