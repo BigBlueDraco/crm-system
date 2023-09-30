@@ -15,8 +15,8 @@ model User {
   firstName  String
   lastName   String
   middleName String
-  email      String
-  phone      String
+  email      String    @unique
+  phone      String    @unique
   employee   Employee?
   customer   Customer?
 
