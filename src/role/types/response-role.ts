@@ -1,4 +1,4 @@
-import { Right } from '@prisma/client';
+import { Right } from '@/rights/types/Right';
 import { Role } from './role';
 
 export interface ResponseRole extends Role {
