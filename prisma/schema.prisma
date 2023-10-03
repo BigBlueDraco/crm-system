@@ -54,7 +54,7 @@ model RightOnRole {
   rightId Int
   right   Right @relation(fields: [rightId], references: [id], onDelete: Cascade)
 
-  @@id([roleId, rightId])
+  id Int @id() @default(autoincrement())
 }
 
 model Customer {

@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { RightsService } from './rights.service';
+import { RightOnRoleService } from './right-on-role.service';
 import { PrismaService } from '@/prisma/service/prisma.service';
 import { PrismaModule } from '@/prisma/prisma.module';
 
 @Module({
   imports: [PrismaModule],
-  providers: [RightsService, PrismaService],
-  exports: [RightsService],
+  providers: [RightOnRoleService, PrismaService],
+  exports: [RightOnRoleService],
 })
-export class RightsModule {}
+export class RightOnRoleModule {}

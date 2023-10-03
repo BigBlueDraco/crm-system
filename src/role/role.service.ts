@@ -4,7 +4,8 @@ import { UpdateRole } from './types/update-role';
 import { PrismaService } from '@/prisma/service/prisma.service';
 import { ResponseRole } from './types/response-role';
 import { RightsService } from '@/rights/rights.service';
-import { RightOnRoleService } from '@/right-to-role/right-on-role.service';
+import { RightOnRoleService } from '@/right-on-role/right-on-role.service';
+import { RightDto } from '../rights/dto/right.dto';
 
 @Injectable()
 export class RoleService {
@@ -27,15 +28,16 @@ export class RoleService {
 
   async create(createRole: CreateRole): Promise<ResponseRole> {
     try {
+      const { rightsIds, ...data } = createRole;
       const existingRights = await this.rightsService.findManyById(
         createRole.rightsIds,
       );
-      if (existingRights.length !== createRole.rightsIds.length) {
+      if (existingRights.length !== rightsIds.length) {
         throw new ConflictException(
           `Rights ids (${createRole.rightsIds}) dosent math to existing rights ids (${existingRights})`,
         );
       }
-      const createRights = createRole.rightsIds.reduce<{ rightId: number }[]>(
+      const createRights = rightsIds.reduce<{ rightId: number }[]>(
         (acc, elem) => {
           acc.push({ rightId: +elem });
           return acc;
@@ -44,7 +46,7 @@ export class RoleService {
       );
       const role = await this.prismaService.role.create({
         data: {
-          ...createRole,
+          ...data,
           rights: {
             create: createRights,
           },
@@ -60,6 +62,7 @@ export class RoleService {
 
       return this.roleMaping([role])[0];
     } catch (err) {
+      console.log(err);
       return err;
     }
   }
@@ -96,43 +99,42 @@ export class RoleService {
   async update(id: number, updateRole: UpdateRole): Promise<ResponseRole> {
     try {
       const { addRights, removeRights, ...updateRoleData } = updateRole;
-      const currentRightsIds = (await this.findOne(id)).rights.map(
+      const currentRightsIds: any[] = (await this.findOne(id)).rights.map(
         (elem) => elem.id,
       );
-
-      const rightsToDelete = currentRightsIds.filter((id) =>
-        removeRights.includes(id),
-      );
-      const rightsIdsToCreate = addRights.filter(
-        (id) => !currentRightsIds.includes(id),
-      );
-      await this.rightsService.checkRightsExistInDB(rightsIdsToCreate);
-      const rightsToCreate = rightsIdsToCreate.map((elem) => ({
-        roleId: id,
-        rightId: elem,
-      }));
-      await this.rightsOnRoleService.removeMany({
-        roleIds: [id],
-        rightsIds: rightsToDelete,
-      });
-      await this.rightsOnRoleService.createMany(rightsToCreate);
-      const role = await this.prismaService.role.update({
+      await this.prismaService.role.update({
         where: {
           id,
         },
         data: {
           ...updateRoleData,
         },
-        include: {
-          rights: {
-            include: {
-              right: true,
-            },
-          },
-        },
       });
-      return this.roleMaping([role])[0];
+      if (removeRights) {
+        const rightsToDelete = currentRightsIds.filter((id) =>
+          removeRights.includes(id),
+        );
+        await this.rightsOnRoleService.removeMany({
+          roleIds: [id],
+          rightsIds: rightsToDelete,
+        });
+      }
+      if (addRights) {
+        const rightsIdsToCreate = addRights.filter(
+          (id) => !currentRightsIds.includes(id),
+        );
+        await this.rightsService.checkRightsExistInDB(rightsIdsToCreate);
+        const rightsToCreate = rightsIdsToCreate.map((elem) => ({
+          roleId: id,
+          rightId: elem,
+        }));
+        await this.rightsOnRoleService.createMany(rightsToCreate);
+      }
+      const role = await this.findOne(id);
+
+      return role;
     } catch (err) {
+      console.log(err);
       return err;
     }
   }

@@ -6,7 +6,7 @@ export class RightOnRoleService {
   constructor(private readonly prismaService: PrismaService) {}
   async createMany(rightsToCreate) {
     return await this.prismaService.rightOnRole.createMany({
-      data: rightsToCreate,
+      data: [...rightsToCreate],
     });
   }
   async removeMany(rightsToRemove: { roleIds: number[]; rightsIds: number[] }) {

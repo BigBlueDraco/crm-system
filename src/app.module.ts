@@ -6,7 +6,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { RoleModule } from './role/role.module';
 import { UserModule } from './user/user.module';
 import { RightsModule } from './rights/rights.module';
-import { RightOnRoleModule } from './right-to-role/right-on-role.module';
+import { RightOnRoleModule } from './right-on-role/right-on-role.module';
 
 @Module({
   imports: [
