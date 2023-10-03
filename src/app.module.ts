@@ -7,6 +7,8 @@ import { RoleModule } from './role/role.module';
 import { UserModule } from './user/user.module';
 import { RightsModule } from './rights/rights.module';
 import { RightOnRoleModule } from './right-on-role/right-on-role.module';
+import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import { RightOnRoleModule } from './right-on-role/right-on-role.module';
     RoleModule,
     RightsModule,
     RightOnRoleModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
