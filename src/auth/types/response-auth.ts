@@ -3,5 +3,5 @@ import { Tokens } from './token';
 
 export interface ResponseAuth {
   tokens: Tokens;
-  Employee: ResponseEmployee;
+  employee: ResponseEmployee;
 }

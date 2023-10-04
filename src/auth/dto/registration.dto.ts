@@ -8,6 +8,5 @@ export class RegistrationDto implements Registration {
   middleName: string;
   email: string;
   phone: string;
-  login: string;
   password: string;
 }

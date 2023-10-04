@@ -1,9 +1,31 @@
 import { Injectable } from '@nestjs/common';
+import { CreateEmployee } from './types/create-employee';
+import { ResponseEmployee } from './types/response-employee';
+import { PrismaService } from '@/prisma/service/prisma.service';
+import { UserService } from '@/user/user.service';
 
 @Injectable()
 export class EmployeeService {
-  create(createEmployeeDto: unknown) {
-    return 'This action adds a new employee';
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly userService: UserService,
+  ) {}
+
+  async create(createEmployee: CreateEmployee) {
+    const { password, ...data } = createEmployee;
+    const { role, user, ...employee } =
+      await this.prismaService.employee.create({
+        data: {
+          password: password,
+          role: { connect: { id: 2 } },
+          user: { create: data },
+        },
+        include: {
+          role: true,
+          user: true,
+        },
+      });
+    return { ...user, role };
   }
 
   findAll() {

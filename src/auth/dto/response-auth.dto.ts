@@ -4,5 +4,5 @@ import { TokensDto } from './tokenst.dto';
 
 export class ResponseAuthDto implements ResponseAuth {
   tokens: TokensDto;
-  Employee: ResponseEmployee;
+  employee: ResponseEmployee;
 }
