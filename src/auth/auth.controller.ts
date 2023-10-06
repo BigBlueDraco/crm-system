@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Headers,
+  HttpCode,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ResponseAuthDto } from './dto/response-auth.dto';
@@ -15,13 +16,27 @@ import { RegistrationDto } from './dto/registration.dto';
 import { ResetPasswordParamsDto } from './dto/reset-password-params.dto';
 import { ResetPasswordBodyDto } from './dto/reset-password-body.dto';
 import { ResetPasswordBody } from './types/reset-password';
+import {
+  ApiConflictResponse,
+  ApiInternalServerErrorResponse,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('Auth')
+@ApiInternalServerErrorResponse({ description: 'Oh, something went wrong' })
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/login')
-  async login(@Body() loginDto: LoginDto) {
+  @HttpCode(200)
+  @ApiResponse({
+    status: 200,
+    description: 'Authorized',
+    type: ResponseAuthDto,
+  })
+  async login(@Body() loginDto: LoginDto): Promise<ResponseAuthDto> {
     try {
       console.log(loginDto);
       return await this.authService.login(loginDto);
@@ -29,11 +44,19 @@ export class AuthController {
       return err;
     }
   }
+
   @Post('/registration')
+  @HttpCode(201)
+  @ApiResponse({
+    status: 201,
+    description: 'Employee created and authorized',
+    type: ResponseAuthDto,
+  })
+  @ApiConflictResponse({ description: 'User with email already exists' })
   async registration(
     @Body()
     registrationDto: RegistrationDto,
-  ): Promise<any> {
+  ): Promise<ResponseAuthDto> {
     try {
       return await this.authService.registration(registrationDto);
     } catch (err) {
