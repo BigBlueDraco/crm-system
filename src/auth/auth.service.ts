@@ -1,4 +1,9 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { Login } from './types/login';
 import { Registration } from './types/registration';
 import { ResetPasswordBody } from './types/reset-password';
@@ -8,6 +13,7 @@ import { compare, hash } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
+  userService: any;
   constructor(
     private readonly employeeService: EmployeeService,
     private readonly jwtService: JwtService,
@@ -23,7 +29,43 @@ export class AuthService {
       throw new BadRequestException('Passwords dont mathing');
     }
   }
-  async login(login: Login) {}
+  async login(loginData: Login) {
+    try {
+      const { login, password } = loginData;
+      const existEmployee = await this.employeeService.findFirst({
+        user: {
+          email: login.toLowerCase(),
+        },
+      });
+      if (!existEmployee) {
+        throw new HttpException(`Unvalid user data`, HttpStatus.CONFLICT);
+      }
+      const isValidPassword = await compare(password, existEmployee.password);
+      if (!isValidPassword) {
+        throw new HttpException(`Unvalid user data`, HttpStatus.CONFLICT);
+      }
+      const {
+        password: exPassword,
+        userId,
+        roleId,
+        user,
+        ...res
+      } = existEmployee;
+      return {
+        tokens: {
+          access: this.jwtService.sign({
+            id: existEmployee.id,
+            email: existEmployee.email,
+            role: existEmployee.role,
+          }),
+          refresh: 'test',
+        },
+        employee: { ...user, ...res },
+      };
+    } catch (err) {
+      return err;
+    }
+  }
   async registration(registration: Registration) {
     try {
       const { password, confirmPassword, ...employee } = registration;
@@ -35,11 +77,12 @@ export class AuthService {
       });
       return {
         tokens: {
-          access: this.jwtService.sign({
+          access: await this.jwtService.sign({
             id: newEmployee.id,
             email: newEmployee.email,
             role: newEmployee.role,
           }),
+          refresh: 'test',
         },
         employee: newEmployee,
       };

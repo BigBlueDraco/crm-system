@@ -21,16 +21,24 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/login')
-  async login(loginDto: LoginDto) {
-    return await this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDto) {
+    try {
+      console.log(loginDto);
+      return await this.authService.login(loginDto);
+    } catch (err) {
+      return err;
+    }
   }
   @Post('/registration')
   async registration(
     @Body()
     registrationDto: RegistrationDto,
-  ): Promise<ResponseAuthDto> {
-    console.log(registrationDto);
-    return await this.authService.registration(registrationDto);
+  ): Promise<any> {
+    try {
+      return await this.authService.registration(registrationDto);
+    } catch (err) {
+      return err;
+    }
   }
   async createRegistrationRequest(@Body('emai') email: string): Promise<void> {}
   async forgotPassword(@Body('emai') email: string): Promise<void> {}

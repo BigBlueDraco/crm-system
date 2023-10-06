@@ -49,9 +49,6 @@ export class UserService {
       const user = await this.prismaService.user.findUnique({
         where: { id },
       });
-      if (!user) {
-        throw new NotFoundException(`User with id ${id} dosen't exist`);
-      }
       return user;
     } catch (err) {
       return err;
