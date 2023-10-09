@@ -2,8 +2,11 @@ import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { ResponseCustomer } from './types/response-customer';
+import { ApiInternalServerErrorResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('customer')
+@ApiTags('customer')
+@ApiInternalServerErrorResponse({ description: 'Oh, something went wrong' })
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
 

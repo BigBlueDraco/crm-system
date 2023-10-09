@@ -1,10 +1,6 @@
 import { ResponseCustomer } from '../types/response-customer';
+import { CustomerDto } from './customer.dto';
 
-export class ResponseCustomerDto implements ResponseCustomer {
-  id: number;
-  firstName: string;
-  lastName: string;
-  middleName: string;
-  email: string;
-  phone: string;
-}
+export class ResponseCustomerDto
+  extends CustomerDto
+  implements ResponseCustomer {}

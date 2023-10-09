@@ -1,12 +1,6 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateCustomerDto } from './create-customer.dto';
 import { UpdateCustomer } from '../types/update-customer';
+import { CustomerDto } from './customer.dto';
 
-export class UpdateCustomerDto implements UpdateCustomer {
+export class UpdateCustomerDto extends CustomerDto implements UpdateCustomer {
   message: string;
-  firstName: string;
-  lastName: string;
-  middleName: string;
-  email: string;
-  phone: string;
 }

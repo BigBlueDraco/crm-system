@@ -1,22 +1,12 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  Patch,
-} from '@nestjs/common';
-import { EmployeeFilterDto } from './dto/employee-filter.dto';
-import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { EmployeeService } from './employee.service';
+import { Body, Controller, Get, HttpCode, Param } from '@nestjs/common';
 import {
   ApiInternalServerErrorResponse,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { ResponseEmployeeDto } from './dto/response-employee.dto';
+import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { EmployeeService } from './employee.service';
 
 @Controller('employee')
 @ApiTags('employee')
@@ -27,12 +17,12 @@ export class EmployeeController {
   @Get(':id')
   @HttpCode(200)
   @ApiResponse({
-    status: 202,
+    status: 200,
     description: 'Authorized',
     type: ResponseEmployeeDto,
   })
-  findOne(@Param('id') id: string): Promise<ResponseEmployeeDto> {
-    return this.employeeService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.employeeService.findOne(+id);
   }
 
   update(

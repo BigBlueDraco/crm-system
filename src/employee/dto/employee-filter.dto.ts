@@ -1,9 +1,4 @@
 import { EmployeeFilter } from '../types/employee-filter';
+import { EmployeeDto } from './employee.dto';
 
-export class EmployeeFilterDto implements EmployeeFilter {
-  firstName: string;
-  lastName: string;
-  middleName: string;
-  email: string;
-  phone: string;
-}
+export class EmployeeFilterDto extends EmployeeDto implements EmployeeFilter {}

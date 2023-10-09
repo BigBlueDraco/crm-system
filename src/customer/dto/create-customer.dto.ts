@@ -1,10 +1,6 @@
 import { CreateCustomer } from '../types/create-customer';
+import { CustomerDto } from './customer.dto';
 
-export class CreateCustomerDto implements CreateCustomer {
+export class CreateCustomerDto extends CustomerDto implements CreateCustomer {
   message: string;
-  firstName: string;
-  lastName: string;
-  middleName: string;
-  email: string;
-  phone: string;
 }

@@ -6,6 +6,8 @@ import {
 import { CreateEmployee } from './types/create-employee';
 import { PrismaService } from '@/prisma/service/prisma.service';
 import { UserService } from '@/user/user.service';
+import { ResponseCustomer } from '@/customer/types/response-customer';
+import { ResponseEmployee } from './types/response-employee';
 
 @Injectable()
 export class EmployeeService {
@@ -52,15 +54,19 @@ export class EmployeeService {
         const newUser = await this.userService.create(data);
         employeeData.user = { connect: { id: newUser.id } };
       }
-      const { user, role, ...employee } =
-        await this.prismaService.employee.create({
-          data: employeeData,
-          include: {
-            role: true,
-            user: true,
-          },
-        });
-      return { ...user, role };
+      const {
+        user,
+        role,
+        id: empId,
+        ...employee
+      } = await this.prismaService.employee.create({
+        data: employeeData,
+        include: {
+          role: true,
+          user: true,
+        },
+      });
+      return { ...user, empId, role };
     } catch (err) {
       return err;
     }
@@ -72,10 +78,14 @@ export class EmployeeService {
 
   async findOne(id: number) {
     try {
-      const employee = await this.prismaService.user.findUnique({
+      const emp = await this.prismaService.employee.findUnique({
         where: { id },
+        include: {
+          role: true,
+          user: true,
+        },
       });
-      return employee;
+      return emp;
     } catch (err) {
       return err;
     }
@@ -85,7 +95,15 @@ export class EmployeeService {
     return `This action updates a #${id} employee`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} employee`;
+  async remove(id: number): Promise<ResponseCustomer> {
+    const {
+      user,
+      role,
+      id: empId,
+    } = await this.prismaService.employee.delete({
+      where: { id },
+      include: { user: true, role: true },
+    });
+    return { ...user, id: empId };
   }
 }
