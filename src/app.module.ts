@@ -9,6 +9,7 @@ import { RightsModule } from './rights/rights.module';
 import { RightOnRoleModule } from './right-on-role/right-on-role.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { CustomerModule } from './customer/customer.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ConfigModule } from '@nestjs/config';
     RightsModule,
     RightOnRoleModule,
     AuthModule,
+    CustomerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
