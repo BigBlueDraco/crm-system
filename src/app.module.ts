@@ -10,6 +10,7 @@ import { RightOnRoleModule } from './right-on-role/right-on-role.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { CustomerModule } from './customer/customer.module';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CustomerModule } from './customer/customer.module';
     RightOnRoleModule,
     AuthModule,
     CustomerModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
