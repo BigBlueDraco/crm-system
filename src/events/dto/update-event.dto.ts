@@ -1,4 +1,12 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateEventDto } from './create-event.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { UpdateEvent } from '../types/update-event';
+import { EventDto } from './event.dto';
 
-export class UpdateEventDto extends PartialType(CreateEventDto) {}
+export class UpdateEventDto extends EventDto implements UpdateEvent {
+  @ApiProperty({
+    description: 'ownerId',
+    example: 1,
+    type: Number,
+  })
+  ownerId: number;
+}

@@ -3,12 +3,6 @@ import { User } from '../types/user';
 
 export class UserDto implements User {
   @ApiProperty({
-    description: 'id',
-    example: 1,
-    type: Number,
-  })
-  id: number;
-  @ApiProperty({
     description: 'First name',
     example: 'Benjamin ',
     type: String,

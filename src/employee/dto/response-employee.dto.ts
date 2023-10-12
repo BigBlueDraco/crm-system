@@ -8,6 +8,12 @@ export class ResponseEmployeeDto
   implements ResponseEmployee
 {
   @ApiProperty({
+    description: 'id',
+    example: 1,
+    type: Number,
+  })
+  id: number;
+  @ApiProperty({
     type: ResponseRoleDto,
   })
   role: ResponseRoleDto;

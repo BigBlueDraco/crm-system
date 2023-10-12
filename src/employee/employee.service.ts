@@ -85,6 +85,9 @@ export class EmployeeService {
           user: true,
         },
       });
+      if (!emp) {
+        throw new NotFoundException(`Employee with id: ${id} not found`);
+      }
       return emp;
     } catch (err) {
       return err;
