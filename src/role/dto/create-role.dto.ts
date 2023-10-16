@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CreateRole } from '../types/create-role';
+import { IsString } from 'class-validator';
 
 export class CreateRoleDto implements CreateRole {
   @ApiProperty({
@@ -13,5 +14,6 @@ export class CreateRoleDto implements CreateRole {
     example: 'Admin',
     type: String,
   })
+  @IsString()
   name: string;
 }

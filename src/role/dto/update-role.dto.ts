@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UpdateRole } from '../types/update-role';
+import { IsString } from 'class-validator';
 
 export class UpdateRoleDto implements UpdateRole {
   @ApiProperty({
@@ -19,5 +20,6 @@ export class UpdateRoleDto implements UpdateRole {
     example: 'Admin',
     type: String,
   })
+  @IsString()
   name: string;
 }

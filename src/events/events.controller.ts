@@ -32,7 +32,12 @@ export class EventsController {
     type: ResponseEventDto,
   })
   create(@Body() createEventDto: CreateEventDto): Promise<ResponseEventDto> {
-    return this.eventsService.create(createEventDto);
+    try {
+      return this.eventsService.create(createEventDto);
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   }
 
   @Get()
@@ -42,7 +47,11 @@ export class EventsController {
     type: [ResponseEventDto],
   })
   findAll(): Promise<ResponseEventDto[]> {
-    return this.eventsService.findAll();
+    try {
+      return this.eventsService.findAll();
+    } catch (err) {
+      return err;
+    }
   }
 
   @Get(':id')
@@ -52,7 +61,11 @@ export class EventsController {
     type: ResponseEventDto,
   })
   findOne(@Param('id') id: string): Promise<ResponseEventDto> {
-    return this.eventsService.findOne(+id);
+    try {
+      return this.eventsService.findOne(+id);
+    } catch (err) {
+      return err;
+    }
   }
 
   @Patch(':id')
@@ -65,7 +78,11 @@ export class EventsController {
     @Param('id') id: string,
     @Body() updateEventDto: UpdateEventDto,
   ): Promise<ResponseEventDto> {
-    return this.eventsService.update(+id, updateEventDto);
+    try {
+      return this.eventsService.update(+id, updateEventDto);
+    } catch (err) {
+      return err;
+    }
   }
 
   @Delete(':id')
@@ -75,6 +92,10 @@ export class EventsController {
     type: ResponseEventDto,
   })
   remove(@Param('id') id: string): Promise<ResponseEventDto> {
-    return this.eventsService.remove(+id);
+    try {
+      return this.eventsService.remove(+id);
+    } catch (err) {
+      return err;
+    }
   }
 }

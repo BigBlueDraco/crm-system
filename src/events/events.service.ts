@@ -8,7 +8,7 @@ import { UpdateEvent } from './types/update-event';
 @Injectable()
 export class EventsService {
   private readonly includeSchema = {
-    memebers: { include: { user: true } },
+    members: { include: { user: true } },
     owner: { include: { user: true } },
   };
   constructor(
@@ -17,13 +17,10 @@ export class EventsService {
   ) {}
   private eventMaping(events: any[]): ResponseEvent[] {
     return events.map(
-      ({ ownerId, memebers, owner: { user, ...owner }, ...event }) => {
-        const eventMembers = memebers.map(({ user }) => {
-          user;
-        });
+      ({ ownerId, members, owner: { user, ...owner }, ...event }) => {
         return {
           ...event,
-          memebers: { ...eventMembers },
+          members: members.map(({ user }) => user),
           owner: { ...user, ...owner },
         };
       },
@@ -37,15 +34,24 @@ export class EventsService {
   }
   async create(createEvent: CreateEvent): Promise<ResponseEvent> {
     try {
-      const { ownerId, ...data } = createEvent;
+      const { ownerId, memberIds, ...data } = createEvent;
+      const members = memberIds.map((id) => ({
+        userId: id,
+      }));
       await this.checkOwnerExist(ownerId);
       const event = await this.prismaService.event.create({
-        data: { ...data, owner: { connect: { id: ownerId } } },
+        data: {
+          ...data,
+          members: {
+            create: members,
+          },
+          owner: { connect: { id: ownerId } },
+        },
         include: this.includeSchema,
       });
       return this.eventMaping([event])[0];
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 
@@ -54,9 +60,9 @@ export class EventsService {
       const event = await this.prismaService.event.findMany({
         include: this.includeSchema,
       });
-      return this.eventMaping([event]);
+      return this.eventMaping(event);
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 
@@ -66,14 +72,18 @@ export class EventsService {
         where: { id },
         include: this.includeSchema,
       });
+      if (!event) {
+        throw new NotFoundException(`even with id: ${id} not found`);
+      }
       return this.eventMaping([event])[0];
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 
   async update(id: number, updateEvent: UpdateEvent): Promise<ResponseEvent> {
     try {
+      await this.findOne(id);
       const { ownerId, ...data } = updateEvent;
       await this.checkOwnerExist(ownerId);
       const event = await this.prismaService.event.update({
@@ -88,19 +98,20 @@ export class EventsService {
       });
       return this.eventMaping([event])[0];
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 
   async remove(id: number): Promise<ResponseEvent> {
     try {
+      await this.findOne(id);
       const event = await this.prismaService.event.delete({
         where: { id },
         include: this.includeSchema,
       });
       return this.eventMaping([event])[0];
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 }

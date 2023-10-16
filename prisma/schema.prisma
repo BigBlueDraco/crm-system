@@ -88,7 +88,7 @@ model Event {
   ownerId Int
   owner   Employee @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
-  memebers MemberOnEvent[]
+  members MemberOnEvent[]
 }
 
 model MemberOnEvent {
