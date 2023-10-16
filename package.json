@@ -1,6 +1,9 @@
 {
   "name": "crm-system",
   "version": "0.0.1",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "description": "",
   "author": "",
   "private": true,
@@ -9,17 +12,21 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev": "dotenv -e .env.dev nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "dotenv -e .env.prod node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "prisma:seed": "npx prisma migrate reset",
+    "seed:dev": "dotenv -e .env.dev npx prisma migrate reset",
+    "seed:prod": "dotenv -e .env.dev npx prisma migrate reset"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.1.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^9.0.0",
@@ -30,6 +37,9 @@
     "@nestjs/swagger": "^7.1.13",
     "@prisma/client": "^5.3.1",
     "bcrypt": "^5.1.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "dotenv-cli": "^7.3.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
