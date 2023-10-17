@@ -63,7 +63,7 @@ export class AuthService {
         employee: { ...user, ...res },
       };
     } catch (err) {
-      return err;
+      throw err;
     }
   }
   async registration(registration: Registration) {
@@ -87,7 +87,8 @@ export class AuthService {
         employee: newEmployee,
       };
     } catch (err) {
-      return err;
+      console.error(err);
+      throw err;
     }
   }
   async createRegistrationRequest(email: string): Promise<void> {}

@@ -21,8 +21,13 @@ export class EmployeeController {
     description: 'Authorized',
     type: ResponseEmployeeDto,
   })
-  async findOne(@Param('id') id: string) {
-    return await this.employeeService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<ResponseEmployeeDto> {
+    try {
+      const { password, ...emp } = await this.employeeService.findOne(+id);
+      return emp;
+    } catch (err) {
+      throw err;
+    }
   }
 
   update(

@@ -35,7 +35,6 @@ export class EventsController {
     try {
       return this.eventsService.create(createEventDto);
     } catch (err) {
-      console.log(err);
       return err;
     }
   }

@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateRole } from './types/create-role';
 import { UpdateRole } from './types/update-role';
 import { PrismaService } from '@/prisma/service/prisma.service';
@@ -62,8 +66,7 @@ export class RoleService {
 
       return this.roleMaping([role])[0];
     } catch (err) {
-      console.log(err);
-      return err;
+      throw err;
     }
   }
 
@@ -81,23 +84,31 @@ export class RoleService {
   }
 
   async findOne(id: number): Promise<ResponseRole> {
-    const role = await this.prismaService.role.findFirst({
-      where: {
-        id,
-      },
-      include: {
-        rights: {
-          include: {
-            right: true,
+    try {
+      const role = await this.prismaService.role.findFirst({
+        where: {
+          id,
+        },
+        include: {
+          rights: {
+            include: {
+              right: true,
+            },
           },
         },
-      },
-    });
-    return this.roleMaping([role])[0];
+      });
+      if (!role) {
+        throw new NotFoundException(`Role with id: ${id} not found`);
+      }
+      return this.roleMaping([role])[0];
+    } catch (err) {
+      throw err;
+    }
   }
 
   async update(id: number, updateRole: UpdateRole): Promise<ResponseRole> {
     try {
+      await this.findOne(id);
       const { addRights, removeRights, ...updateRoleData } = updateRole;
       const currentRightsIds: any[] = (await this.findOne(id)).rights.map(
         (elem) => elem.id,
@@ -134,13 +145,13 @@ export class RoleService {
 
       return role;
     } catch (err) {
-      console.log(err);
-      return err;
+      throw err;
     }
   }
 
   async remove(id: number): Promise<ResponseRole> {
     try {
+      await this.findOne(id);
       const role = await this.prismaService.role.delete({
         where: {
           id,
@@ -148,7 +159,7 @@ export class RoleService {
       });
       return this.roleMaping([role])[0];
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 }

@@ -30,9 +30,10 @@ export class UserService {
           `User with phone ${createUser.phone.toLocaleLowerCase()} already exist`,
         );
       }
-      return await this.prismaService.user.create({ data: createUser });
+      const user = await this.prismaService.user.create({ data: createUser });
+      return user;
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 
@@ -40,7 +41,7 @@ export class UserService {
     try {
       return await this.prismaService.user.findMany({ where });
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 
@@ -51,7 +52,7 @@ export class UserService {
       });
       return user;
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 
@@ -63,7 +64,7 @@ export class UserService {
         data: updateUser,
       });
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 
@@ -74,7 +75,7 @@ export class UserService {
         where: { id },
       });
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 }

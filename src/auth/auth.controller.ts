@@ -36,9 +36,8 @@ export class AuthController {
     description: 'Authorized',
     type: ResponseAuthDto,
   })
-  async login(@Body() loginDto: LoginDto): Promise<ResponseAuthDto> {
+  async login(@Body() loginDto: LoginDto) {
     try {
-      console.log(loginDto);
       return await this.authService.login(loginDto);
     } catch (err) {
       return err;

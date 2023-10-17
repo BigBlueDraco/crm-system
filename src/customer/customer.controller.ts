@@ -14,16 +14,28 @@ export class CustomerController {
   async create(
     @Body() createCustomerDto: CreateCustomerDto,
   ): Promise<ResponseCustomer> {
-    return await this.customerService.create(createCustomerDto);
+    try {
+      return await this.customerService.create(createCustomerDto);
+    } catch (err) {
+      throw err;
+    }
   }
 
   @Get()
   async findAll(): Promise<ResponseCustomer[]> {
-    return await this.customerService.findAll();
+    try {
+      return await this.customerService.findAll();
+    } catch (err) {
+      throw err;
+    }
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<ResponseCustomer> {
-    return await this.customerService.findOne(+id);
+    try {
+      return await this.customerService.findOne(+id);
+    } catch (err) {
+      throw err;
+    }
   }
 }

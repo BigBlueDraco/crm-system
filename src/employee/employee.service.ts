@@ -15,18 +15,43 @@ export class EmployeeService {
     private readonly prismaService: PrismaService,
     private readonly userService: UserService,
   ) {}
-
+  private employeeMaping(array: [any]) {
+    return array.map(({ user, id, role, password }) => {
+      const { rights: rightsOnRole } = role;
+      const rights = rightsOnRole.map((elem) => {
+        return { ...elem.right };
+      });
+      return {
+        ...user,
+        role: {
+          ...role,
+          rights,
+        },
+        id,
+        password,
+      };
+    });
+  }
   async findFirst(where: any) {
     try {
-      return await this.prismaService.employee.findFirst({
+      const emp = await this.prismaService.employee.findFirst({
         where,
         include: {
-          role: true,
+          role: {
+            include: {
+              rights: {
+                include: {
+                  right: true,
+                },
+              },
+            },
+          },
           user: true,
         },
       });
+      return emp ? this.employeeMaping([emp])[0] : null;
     } catch (err) {
-      return err;
+      throw err;
     }
   }
   async create(createEmployee: CreateEmployee) {
@@ -54,21 +79,25 @@ export class EmployeeService {
         const newUser = await this.userService.create(data);
         employeeData.user = { connect: { id: newUser.id } };
       }
-      const {
-        user,
-        role,
-        id: empId,
-        ...employee
-      } = await this.prismaService.employee.create({
+      const emp = await this.prismaService.employee.create({
         data: employeeData,
         include: {
-          role: true,
+          role: {
+            include: {
+              rights: {
+                include: {
+                  right: true,
+                },
+              },
+            },
+          },
           user: true,
         },
       });
-      return { ...user, empId, role };
+
+      return await this.findOne(emp.id);
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 
@@ -81,16 +110,16 @@ export class EmployeeService {
       const emp = await this.prismaService.employee.findUnique({
         where: { id },
         include: {
-          role: true,
+          role: { include: { rights: { include: { right: true } } } },
           user: true,
         },
       });
       if (!emp) {
         throw new NotFoundException(`Employee with id: ${id} not found`);
       }
-      return emp;
+      return this.employeeMaping([emp])[0];
     } catch (err) {
-      return err;
+      throw err;
     }
   }
 
@@ -98,15 +127,11 @@ export class EmployeeService {
     return `This action updates a #${id} employee`;
   }
 
-  async remove(id: number): Promise<ResponseCustomer> {
-    const {
-      user,
-      role,
-      id: empId,
-    } = await this.prismaService.employee.delete({
+  async remove(id: number): Promise<ResponseEmployee> {
+    const emp = await this.prismaService.employee.delete({
       where: { id },
       include: { user: true, role: true },
     });
-    return { ...user, id: empId };
+    return this.employeeMaping([emp])[0];
   }
 }

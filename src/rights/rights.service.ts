@@ -11,7 +11,7 @@ export class RightsService {
         where: { id: { in: [...idList] } },
       });
     } catch (err) {
-      return err;
+      throw err;
     }
   }
   async findOne(id: number) {
