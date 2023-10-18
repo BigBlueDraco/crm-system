@@ -10,7 +10,7 @@ import {
 export class UserDto implements User {
   @ApiProperty({
     description: 'First name',
-    example: 'Benjamin ',
+    example: 'Benjamin',
     type: String,
   })
   @IsString()
@@ -29,7 +29,7 @@ export class UserDto implements User {
 
   @ApiProperty({
     description: 'Middle name',
-    example: 'Michael ',
+    example: 'Michael',
     type: String,
   })
   @IsString()
