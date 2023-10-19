@@ -22,9 +22,9 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prisma:seed": "npx prisma migrate reset",
-    "seed:dev": "dotenv -e .env.dev npx prisma migrate reset",
-    "seed:prod": "npx prisma migrate reset",
-    "deploy:dev": "npm i && npm run seed:prod --force && npm run build"
+    "seed:dev": "dotenv -e .env.dev npx prisma migrate reset --force",
+    "seed:prod": "npx prisma migrate reset --force",
+    "deploy:dev": "npm i && npm run seed:prod && npm run build"
   },
   "dependencies": {
     "@faker-js/faker": "^8.1.0",
