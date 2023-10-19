@@ -1,10 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
-import { User } from '@/user/types/user';
 import { compare, hash } from 'bcrypt';
-import { Employee } from '@/employee/types/employee';
-import { CreateEmployee } from '@/employee/types/create-employee';
-import { create } from 'domain';
 
 const prismaClient = new PrismaClient();
 const ENV = process.env.NODE_ENV;
@@ -53,7 +49,7 @@ function generateRole() {
   }
   return { name: 'test', rights: { create: generateRigtsOnRole() } };
 }
-function generateUser(): User {
+function generateUser() {
   const firstName = faker.person.firstName();
   const middleName = faker.person.middleName();
   const lastName = faker.person.lastName();
@@ -74,7 +70,7 @@ async function generateHashedPass() {
   return await hash(password, 10);
 }
 async function generateAdmin() {
-  const adminUser: User = {
+  const adminUser = {
     firstName: 'Admin',
     middleName: 'Admin',
     lastName: 'Admin',
