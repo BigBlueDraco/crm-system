@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -59,8 +59,9 @@ model RightOnRole {
 }
 
 model Customer {
-  id   Int  @id
-  user User @relation(fields: [id], references: [id], onDelete: Cascade)
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   requests CustomerRequest[]
 }

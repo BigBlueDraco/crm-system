@@ -4,6 +4,7 @@ import { User } from '@/user/types/user';
 import { compare, hash } from 'bcrypt';
 import { Employee } from '@/employee/types/employee';
 import { CreateEmployee } from '@/employee/types/create-employee';
+import { create } from 'domain';
 
 const prismaClient = new PrismaClient();
 const ENV = process.env.NODE_ENV;
@@ -21,10 +22,15 @@ async function main() {
   console.log('Envairement: ' + ENV);
   console.log('seeding...');
   const data = await generateData();
-  const promises = data.employees.map((data) => setEmployeeToDB(data));
+  await setEmployeeToDB(data.admin[0]);
+  // const empPromises = data.employees.map((data) => setEmployeeToDB(data));
+  const custPromises = data.customers.map((data) => setCustomerToDB(data));
+  const evntPromises = data.events.map((data) => setEventToDB(data));
 
   try {
-    const results = await Promise.all(promises);
+    // await Promise.all(empPromises);
+    await Promise.all(custPromises);
+    await Promise.all(evntPromises);
     console.log('All data has been set to the database');
   } catch (err) {
     console.log('Error setting data to the database:', err);
@@ -95,12 +101,45 @@ async function generateEmployee() {
     },
   };
 }
+function generateCustomer() {
+  const user = generateUser();
+  return {
+    user: { create: user },
+  };
+}
+async function generateEvent() {
+  const {
+    user: { create: user },
+    ...cust
+  } = generateCustomer();
+  return {
+    name: 'dasdasd',
+    from: new Date(Date.now()).toISOString(),
+    to: new Date(Date.now()).toISOString(),
+    owner: { create: await generateEmployee() },
+    members: {
+      create: {
+        user: {
+          create: {
+            ...user,
+            customer: { create: cust },
+          },
+        },
+      },
+    },
+  };
+}
 async function generateData() {
-  const employees = [await generateAdmin()];
-  for (let i = 0; i <= 1; i++) {
-    employees.push(await generateEmployee());
+  const admin = [await generateAdmin()];
+  const events = [];
+  const employees = [];
+  const customers = [];
+  if (process.env.NODE_ENV === 'DEV') {
+    for (let i = 0; i <= 39; i++) {
+      events.push(await generateEvent());
+    }
   }
-  return { employees };
+  return { admin, employees, customers, events };
 }
 main()
   .catch((e) => {
@@ -110,3 +149,21 @@ main()
   .finally(async () => {
     await prismaClient.$disconnect();
   });
+async function setCustomerToDB(data: any): Promise<void> {
+  try {
+    await prismaClient.customer.create({
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+async function setEventToDB(data: any): Promise<void> {
+  try {
+    await prismaClient.event.create({
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
