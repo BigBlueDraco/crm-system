@@ -24,7 +24,7 @@
     "prisma:seed": "npx prisma migrate reset",
     "seed:dev": "dotenv -e .env.dev npx prisma migrate reset",
     "seed:prod": "npx prisma migrate reset",
-    "deploy:dev": "npm i && npm run seed:prod && npm run build"
+    "deploy:dev": "npm i && npm run seed:prod --force && npm run build"
   },
   "dependencies": {
     "@faker-js/faker": "^8.1.0",
