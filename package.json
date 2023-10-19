@@ -14,7 +14,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "dotenv -e .env.prod node dist/main",
+    "start:prod": "npm i && npm run seed:prod && node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -23,7 +23,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prisma:seed": "npx prisma migrate reset",
     "seed:dev": "dotenv -e .env.dev npx prisma migrate reset",
-    "seed:prod": "dotenv -e .env.prod npx prisma migrate reset"
+    "seed:prod": "npx prisma migrate reset",
+    "deploy:dev": "npm i && npm run seed:prod && npm run build"
   },
   "dependencies": {
     "@faker-js/faker": "^8.1.0",
