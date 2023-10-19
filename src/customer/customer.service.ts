@@ -1,11 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateCustomerDto } from './dto/create-customer.dto';
-import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { PrismaService } from '@/prisma/service/prisma.service';
 import { UserService } from '@/user/user.service';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCustomer } from './types/create-customer';
 import { ResponseCustomer } from './types/response-customer';
-import { Customer } from '@prisma/client';
 import { UpdateCustomer } from './types/update-customer';
 
 @Injectable()
