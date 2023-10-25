@@ -1,4 +1,4 @@
-import { User } from './user';
+import { User } from './user.entitity';
 
 export interface UserFilter {
   firstName?: string;

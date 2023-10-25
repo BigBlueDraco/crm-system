@@ -1,5 +1,5 @@
-import { UserDto } from 'src/user/dto/user.dto';
+import { User } from 'src/user/types/user.entitity';
 
-export interface Customer extends UserDto {}
+export interface Customer extends User {}
 
 export interface CustomerFilter extends Customer {}

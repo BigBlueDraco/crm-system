@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger/dist/decorators/api-property.decorator';
-import { User } from '../types/user';
+import { User } from '../types/user.entitity';
 import {
   IsAlpha,
   IsEmail,
