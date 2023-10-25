@@ -1,11 +1,5 @@
-import { User } from '../../user/types/user';
+import { UserDto } from 'src/user/dto/user.dto';
 
-export interface Customer {
-  firstName: string;
-  lastName: string;
-  middleName: string;
-  email: string;
-  phone: string;
-}
+export interface Customer extends UserDto {}
 
 export interface CustomerFilter extends Customer {}
