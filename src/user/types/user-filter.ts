@@ -1,4 +1,4 @@
-import { User } from './user';
+import { IUser } from './user';
 
 export interface UserFilter {
   firstName?: string;

@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateCustomer } from './types/create-customer';
+import { ICreateCustomer } from './types/create-customer';
 import { ResponseCustomer } from './types/response-customer';
 import { UpdateCustomer } from './types/update-customer';
 import { UserService } from 'src/user/user.service';
@@ -21,7 +21,7 @@ export class CustomerService {
       throw err;
     }
   }
-  async create(createCustomer: CreateCustomer): Promise<ResponseCustomer> {
+  async create(createCustomer: ICreateCustomer): Promise<ResponseCustomer> {
     try {
       const { message, ...userData } = createCustomer;
       let customerData: any = {};

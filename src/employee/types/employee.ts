@@ -1,3 +1,3 @@
-import { User } from 'src/user/types/user';
+import { IUser } from 'src/user/types/user';
 
-export interface Employee extends User {}
+export interface Employee extends IUser {}

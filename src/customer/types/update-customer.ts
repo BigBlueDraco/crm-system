@@ -1,5 +1,5 @@
-import { Customer } from './customer';
+import { ICustomer } from './customer';
 
-export interface UpdateCustomer extends Customer {
+export interface UpdateCustomer extends ICustomer {
   message: string;
 }

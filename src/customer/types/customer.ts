@@ -1,5 +1,5 @@
-import { User } from 'src/user/types/user';
+import { IUser } from 'src/user/types/user';
 
-export interface Customer extends User {}
+export interface ICustomer extends IUser {}
 
-export interface CustomerFilter extends Customer {}
+export interface CustomerFilter extends ICustomer {}
