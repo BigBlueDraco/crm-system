@@ -1,5 +1,5 @@
-import { IUser } from './user';
+import { User } from './user';
 
-export interface ResponseUser extends IUser {
+export interface ResponseUser extends User {
   id: number;
 }

@@ -1,5 +1,5 @@
-import { ICustomer } from './customer';
+import { Customer } from './customer';
 
-export interface ResponseCustomer extends ICustomer {
+export interface ResponseCustomer extends Customer {
   id: number;
 }

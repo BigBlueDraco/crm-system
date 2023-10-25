@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { ICustomer } from '../types/customer';
+import { Customer } from '../types/customer';
 import { UserDto } from 'src/user/dto/user.dto';
 
-export class CustomerDto extends UserDto implements ICustomer {
+export class CustomerDto extends UserDto implements Customer {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({

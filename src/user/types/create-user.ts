@@ -1,3 +1,3 @@
-import { IUser } from './user';
+import { User } from './user';
 
-export interface CreateUser extends IUser {}
+export interface CreateUser extends User {}

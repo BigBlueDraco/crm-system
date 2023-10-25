@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger/dist/decorators/api-property.decorator';
-import { IUser } from '../types/user';
+import { User } from '../types/user';
 import {
   IsAlpha,
   IsEmail,
@@ -7,7 +7,7 @@ import {
   IsPhoneNumber,
   IsString,
 } from 'class-validator';
-export class UserDto implements IUser {
+export class UserDto implements User {
   @ApiProperty({
     description: 'First name',
     example: 'Benjamin',

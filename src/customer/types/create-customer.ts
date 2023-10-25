@@ -1,5 +1,5 @@
-import { ICustomer } from './customer';
+import { Customer } from './customer';
 
-export interface ICreateCustomer extends ICustomer {
+export interface CreateCustomer extends Customer {
   message: string;
 }
