@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Registration } from '../types/registration';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { EmployeeDto } from 'src/employee/dto/employee.dto';
+import { EmployeeDto } from '../../employee/dto/employee.dto';
 
 export class RegistrationDto extends EmployeeDto implements Registration {
   @ApiProperty({

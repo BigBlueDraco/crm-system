@@ -1,4 +1,4 @@
-import { ResponseEmployeeDto } from 'src/employee/dto/response-employee.dto';
+import { ResponseEmployeeDto } from '../../employee/dto/response-employee.dto';
 import { ResponseAuth } from '../types/response-auth';
 import { TokensDto } from './tokenst.dto';
 import { ApiProperty } from '@nestjs/swagger';

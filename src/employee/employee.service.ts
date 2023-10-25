@@ -6,8 +6,8 @@ import {
 import { CreateEmployee } from './types/create-employee';
 
 import { ResponseEmployee } from './types/response-employee';
-import { PrismaService } from 'src/prisma/service/prisma.service';
-import { UserService } from 'src/user/user.service';
+import { PrismaService } from '../prisma/service/prisma.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class EmployeeService {

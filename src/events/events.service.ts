@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEvent } from './types/create-event';
 import { ResponseEvent } from './types/response-event';
 import { UpdateEvent } from './types/update-event';
-import { PrismaService } from 'src/prisma/service/prisma.service';
-import { EmployeeService } from 'src/employee/employee.service';
+import { PrismaService } from '../prisma/service/prisma.service';
+import { EmployeeService } from '../employee/employee.service';
 
 @Injectable()
 export class EventsService {
