@@ -1,6 +1,6 @@
-import { User } from '@/user/types/user';
+import { Employee } from 'src/employee/types/employee';
 import { Event } from './event';
-import { Employee } from '@/employee/types/employee';
+import { User } from 'src/user/types/user';
 
 export interface ResponseEvent extends Event {
   id: number;

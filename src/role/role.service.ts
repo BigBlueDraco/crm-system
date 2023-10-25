@@ -5,11 +5,10 @@ import {
 } from '@nestjs/common';
 import { CreateRole } from './types/create-role';
 import { UpdateRole } from './types/update-role';
-import { PrismaService } from '@/prisma/service/prisma.service';
+import { PrismaService } from 'src/prisma/service/prisma.service';
+import { RightsService } from 'src/rights/rights.service';
+import { RightOnRoleService } from 'src/right-on-role/right-on-role.service';
 import { ResponseRole } from './types/response-role';
-import { RightsService } from '@/rights/rights.service';
-import { RightOnRoleService } from '@/right-on-role/right-on-role.service';
-import { RightDto } from '../rights/dto/right.dto';
 
 @Injectable()
 export class RoleService {

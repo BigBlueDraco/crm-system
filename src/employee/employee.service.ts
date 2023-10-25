@@ -4,10 +4,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateEmployee } from './types/create-employee';
-import { PrismaService } from '@/prisma/service/prisma.service';
-import { UserService } from '@/user/user.service';
-import { ResponseCustomer } from '@/customer/types/response-customer';
+
 import { ResponseEmployee } from './types/response-employee';
+import { PrismaService } from 'src/prisma/service/prisma.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class EmployeeService {

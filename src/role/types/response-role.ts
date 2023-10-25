@@ -1,4 +1,4 @@
-import { Right } from '@/rights/types/Right';
+import { Right } from 'src/rights/types/Right';
 import { Role } from './role';
 
 export interface ResponseRole extends Role {

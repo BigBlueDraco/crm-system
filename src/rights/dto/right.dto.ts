@@ -1,5 +1,5 @@
-import { Right } from '@/rights/types/Right';
 import { ApiProperty } from '@nestjs/swagger';
+import { Right } from '../types/Right';
 
 export class RightDto implements Right {
   @ApiProperty({

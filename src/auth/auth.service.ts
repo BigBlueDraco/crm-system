@@ -7,9 +7,9 @@ import {
 import { Login } from './types/login';
 import { Registration } from './types/registration';
 import { ResetPasswordBody } from './types/reset-password';
-import { EmployeeService } from '@/employee/employee.service';
 import { JwtService } from '@nestjs/jwt';
 import { compare, hash } from 'bcrypt';
+import { EmployeeService } from 'src/employee/employee.service';
 
 @Injectable()
 export class AuthService {

@@ -1,7 +1,7 @@
-import { UserDto } from '@/user/dto/user.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Customer } from '../types/customer';
+import { UserDto } from 'src/user/dto/user.dto';
 
 export class CustomerDto extends UserDto implements Customer {
   @IsNotEmpty()

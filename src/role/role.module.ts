@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { RoleController } from './role.controller';
-import { RightOnRoleModule } from '@/right-on-role/right-on-role.module';
-import { RightsModule } from '@/rights/rights.module';
-import { RightsService } from '@/rights/rights.service';
-import { PrismaModule } from '@/prisma/prisma.module';
-import { PrismaService } from '@/prisma/service/prisma.service';
+import { RightOnRoleModule } from 'src/right-on-role/right-on-role.module';
+import { RightsModule } from 'src/rights/rights.module';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { RightsService } from 'src/rights/rights.service';
+import { PrismaService } from 'src/prisma/service/prisma.service';
 
 @Module({
   imports: [RightOnRoleModule, RightsModule, PrismaModule],
